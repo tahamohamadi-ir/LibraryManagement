@@ -3,7 +3,6 @@ package org.taha.librarymanagment.model.enumeration;
 import lombok.Getter;
 
 @Getter
-
 public enum GenderEnum {
 
     Male(1 , "مرد"),

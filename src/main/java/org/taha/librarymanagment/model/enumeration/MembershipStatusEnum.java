@@ -1,5 +1,8 @@
 package org.taha.librarymanagment.model.enumeration;
 
+import lombok.Getter;
+
+@Getter
 public enum MembershipStatusEnum {
 
     Active(1 , "فعال"),

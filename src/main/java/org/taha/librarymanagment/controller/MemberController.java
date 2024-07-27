@@ -8,4 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("/api/v1/member")
 @RequestMapping("/member")
 public class MemberController {
+
+
 }
