@@ -1,2 +1,4 @@
-package org.taha.librarymanagment.model.enumeration;public enum MembershipStatusEnum {
+package org.taha.librarymanagment.model.enumeration;
+
+public enum MembershipStatusEnum {
 }
