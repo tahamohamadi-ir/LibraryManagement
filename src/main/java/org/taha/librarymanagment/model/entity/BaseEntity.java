@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 public class BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
