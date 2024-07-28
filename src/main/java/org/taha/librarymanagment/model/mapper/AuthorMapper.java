@@ -1,15 +1,15 @@
 package org.taha.librarymanagment.model.mapper;
 
 import org.mapstruct.*;
-import org.taha.librarymanagment.model.dto.MemberDto;
-import org.taha.librarymanagment.model.entity.Member;
+import org.taha.librarymanagment.model.dto.AuthorDto;
+import org.taha.librarymanagment.model.entity.Author;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {PersonMapper.class})
-public interface MemberMapper {
-    Member toEntity(MemberDto memberDto);
+public interface AuthorMapper {
+    Author toEntity(AuthorDto authorDto);
 
-    MemberDto toDto(Member member);
+    AuthorDto toDto(Author author);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Member partialUpdate(MemberDto memberDto, @MappingTarget Member member);
+    Author partialUpdate(AuthorDto authorDto, @MappingTarget Author author);
 }

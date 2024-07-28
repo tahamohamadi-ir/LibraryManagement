@@ -1,8 +1,6 @@
 package org.taha.librarymanagment.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -13,7 +11,10 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 @Entity(name = "BorrowList")
-public class BorrowList extends BaseEntity {
+public class BorrowList {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;

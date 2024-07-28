@@ -1,7 +1,6 @@
 package org.taha.librarymanagment.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -18,22 +17,24 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 @Entity(name = "Member")
-public class Member extends BaseEntity {
-    private String firstName;
-    private String lastName;
-    @Column(nullable = false, unique = true)
-    @Size(min = 10, max = 10)
-    private String nationalCode;
-    private String fatherName;
+public class Member {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    @OneToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
     @Column(nullable = false)
     private String phoneNumber;
     private String address;
-    private GenderEnum gender;
+    @Enumerated(EnumType.STRING)
     private MembershipStatusEnum membershipStatus;
     @Email
     private String email;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Timestamp birthDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Timestamp registerDate;
+    @Column(nullable = false, unique = true)
+    @Size(min = 10, max = 10)
+    private String nationalCode;
+    private String fatherName;
 }

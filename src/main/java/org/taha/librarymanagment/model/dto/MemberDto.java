@@ -1,23 +1,27 @@
 package org.taha.librarymanagment.model.dto;
 
-
-import org.taha.librarymanagment.model.enumeration.GenderEnum;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+import lombok.Value;
 import org.taha.librarymanagment.model.enumeration.MembershipStatusEnum;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class MemberDto {
-    private String firstName;
-    private String lastName;
-    private String nationalCode;
-    private String fatherName;
-    private String phoneNumber;
-    private String address;
-    private GenderEnum gender;
-    private String genderDesc;
-    private MembershipStatusEnum membershipStatus;
-    private String membershipStatusDesc;
-    private String email;
-    private Timestamp birthDate;
-    private Timestamp registerDate;
+/**
+ * DTO for {@link org.taha.librarymanagment.model.entity.Member}
+ */
+@Value
+public class MemberDto implements Serializable {
+    Long id;
+    PersonDto person;
+    String phoneNumber;
+    String address;
+    MembershipStatusEnum membershipStatus;
+    @Email
+    String email;
+    Timestamp registerDate;
+    @Size(min = 10, max = 10)
+    String nationalCode;
+    String fatherName;
 }

@@ -1,20 +1,23 @@
 package org.taha.librarymanagment.model.dto;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import org.taha.librarymanagment.model.entity.Book;
-import org.taha.librarymanagment.model.entity.Member;
+import lombok.Value;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BorrowListDto {
-    private Book book;
-    private Member member;
-    private Timestamp borrowDate;
-    private Timestamp returnDate;
-    private int dueDays;
-    private boolean isReturned;
-    private boolean isExtended;
-    private int extendCount;
-    private int penalty;
+/**
+ * DTO for {@link org.taha.librarymanagment.model.entity.BorrowList}
+ */
+@Value
+public class BorrowListDto implements Serializable {
+    Long id;
+    BookDto book;
+    MemberDto member;
+    Timestamp borrowDate;
+    Timestamp returnDate;
+    int dueDays;
+    boolean isReturned;
+    boolean isExtended;
+    int extendCount;
+    int penalty;
 }

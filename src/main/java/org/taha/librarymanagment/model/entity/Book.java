@@ -1,6 +1,6 @@
 package org.taha.librarymanagment.model.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,11 +14,16 @@ import java.util.List;
 @Setter
 @ToString
 @Entity(name = "Book")
-public class Book extends BaseEntity {
+public class Book{
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     private String title;
     private Long bookNumber;
-    private List<String> author;
-    private List<String> translators;
+    @OneToMany
+    private List<Author> author;
+    @OneToMany
+    private List<Translator> translators;
     private String isbn;
     private String publisher;
     private Timestamp publicationDate;
