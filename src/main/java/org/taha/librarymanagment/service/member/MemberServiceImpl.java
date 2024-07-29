@@ -1,51 +1,136 @@
 package org.taha.librarymanagment.service.member;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import org.taha.librarymanagment.model.dto.MemberDto;
 import org.taha.librarymanagment.model.entity.Member;
 import org.taha.librarymanagment.model.filter.MemberFilterDto;
 import org.taha.librarymanagment.model.mapper.MemberMapper;
 import org.taha.librarymanagment.repository.MemberRepository;
+import org.taha.librarymanagment.repository.specification.MemberSpecification;
 
 import java.util.List;
 
+/**
+ * Service implementation for managing members.
+ */
 @Service
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
 
+    /**
+     * Constructor for MemberServiceImpl.
+     *
+     * @param memberRepository the member repository
+     * @param memberMapper the member mapper
+     */
     public MemberServiceImpl(MemberRepository memberRepository, MemberMapper memberMapper) {
         this.memberRepository = memberRepository;
         this.memberMapper = memberMapper;
     }
 
+    /**
+     * Creates a specification for filtering members.
+     *
+     * @param memberFilterDto the member filter DTO
+     * @return the member specification
+     */
+    private MemberSpecification createSpecification(MemberFilterDto memberFilterDto) {
+        return new MemberSpecification(memberFilterDto);
+    }
+
+    /**
+     * Finds all members by filter with pagination.
+     *
+     * @param memberFilterDto the member filter DTO
+     * @param pageable the pagination information
+     * @return a page of member DTOs
+     */
     @Override
     public Page<MemberDto> findAllByFilter(MemberFilterDto memberFilterDto, Pageable pageable) {
-        return null;
+        MemberSpecification spec = createSpecification(memberFilterDto);
+        Page<Member> memberPage = memberRepository.findAll(spec, pageable);
+        List<MemberDto> memberDtos = memberPage.map(memberMapper::toDto).getContent();
+        return new PageImpl<>(memberDtos, pageable, memberPage.getTotalElements());
     }
 
+    /**
+     * Finds all members by filter.
+     *
+     * @param memberFilterDto the member filter DTO
+     * @return a list of member DTOs
+     */
     @Override
     public List<MemberDto> findAll(MemberFilterDto memberFilterDto) {
-        return List.of();
+        MemberSpecification spec = createSpecification(memberFilterDto);
+        List<Member> members = memberRepository.findAll(spec);
+        return members.stream()
+                .map(memberMapper::toDto)
+                .toList();
     }
 
+    /**
+     * Finds a member by ID.
+     *
+     * @param id the member ID
+     * @return the member DTO
+     * @throws ResponseStatusException if the member is not found
+     */
     @Override
     public MemberDto findById(Long id) {
         return memberRepository.findById(id)
                 .map(memberMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member not found with id: " + id));
     }
 
+    /**
+     * Saves a new member.
+     *
+     * @param memberDto the member DTO
+     * @return the saved member DTO
+     */
     @Override
     public MemberDto save(MemberDto memberDto) {
         return memberMapper.toDto(memberRepository.save(memberMapper.toEntity(memberDto)));
     }
 
+    /**
+     * Updates a member's details.
+     *
+     * @param id the member ID
+     * @param memberDto the member DTO
+     * @return the number of entities updated
+     * @throws ResponseStatusException if the member ID or details are null, or if the member is not found, or if the update fails
+     */
     @Override
+    @Transactional
     public int update(Long id, MemberDto memberDto) {
-        return memberRepository.updateMember(memberDto.getPhoneNumber(), memberDto.getAddress(), memberDto.getMembershipStatus(), memberDto.getEmail(), memberDto.getNationalCode(), memberDto.getFatherName(), id);
+        if (id == null || memberDto == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member ID and details must not be null");
+        }
+
+        if (!memberRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member not found with id: " + id);
+        }
+
+        try {
+            return memberRepository.updateMember(
+                    memberDto.getPhoneNumber(),
+                    memberDto.getAddress(),
+                    memberDto.getMembershipStatus(),
+                    memberDto.getEmail(),
+                    memberDto.getNationalCode(),
+                    memberDto.getFatherName(),
+                    id
+            );
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update member details", e);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package org.taha.librarymanagment.model.filter;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +15,14 @@ public class MemberFilterDto {
     private String firstName;
     private String lastName;
     private GenderEnum gender;
-    private Timestamp birthDate;
-    private Timestamp birthDate1;
+    private Timestamp birthDateFrom;
+    private Timestamp birthDateThru;
     private NationalityEnum nationalities;
     private String phoneNumber;
     private MembershipStatusEnum membershipStatus;
     private String email;
-    private Timestamp registerDate;
-    private Timestamp registerDate1;
+    private Timestamp registerDateFrom;
+    private Timestamp registerDateThru;
     private String nationalCode;
     private String fatherName;
     private Pageable pageable;

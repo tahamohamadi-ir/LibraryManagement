@@ -2,19 +2,21 @@ package org.taha.librarymanagment.service.person;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.taha.librarymanagment.model.dto.PersonDto;
-import org.taha.librarymanagment.model.entity.Person;
+import org.taha.librarymanagment.model.filter.PersonFilterDto;
 import org.taha.librarymanagment.model.mapper.PersonMapper;
 import org.taha.librarymanagment.repository.PersonRepository;
+import org.taha.librarymanagment.repository.specification.PersonSpecification;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class provides the implementation for the PersonService interface.
  * It uses a PersonRepository for database operations and a PersonMapper for converting between Person and PersonDto objects.
  */
-public class PersonServiceImpl implements PersonService{
+@Service
+public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
 
@@ -29,16 +31,27 @@ public class PersonServiceImpl implements PersonService{
     }
 
     /**
+     * Creates a specification for filtering persons.
+     * @param personFilterDto the person filter DTO
+     * @return the person specification
+     */
+    private PersonSpecification createSpecification(PersonFilterDto personFilterDto) {
+        return new PersonSpecification(personFilterDto);
+    }
+
+    /**
      * Retrieves all persons that match the given filter.
      * @param personDto the filter to apply
      * @return a list of PersonDto objects that match the filter
      */
     @Override
     public List<PersonDto> getAllPerson(PersonDto personDto) {
-        return personRepository.findAllByFilterDto(personDto.getFirstName(), personDto.getLastName(), personDto.getGender(), personDto.getBirthDate(), personDto.getNationalities())
+        PersonFilterDto filterDto = personMapper.toFilterDto(personDto);
+        PersonSpecification spec = createSpecification(filterDto);
+        return personRepository.findAll(spec)
                 .stream()
                 .map(personMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -49,7 +62,9 @@ public class PersonServiceImpl implements PersonService{
      */
     @Override
     public Page<PersonDto> getAllPerson(PersonDto personDto, Pageable pageable) {
-        return personRepository.findPageableByFilterDto(personDto.getFirstName(), personDto.getLastName(), personDto.getGender(), personDto.getBirthDate(), personDto.getNationalities(), pageable)
+        PersonFilterDto filterDto = personMapper.toFilterDto(personDto);
+        PersonSpecification spec = createSpecification(filterDto);
+        return personRepository.findAll(spec, pageable)
                 .map(personMapper::toDto);
     }
 
