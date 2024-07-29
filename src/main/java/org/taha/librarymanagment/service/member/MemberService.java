@@ -3,6 +3,7 @@ package org.taha.librarymanagment.service.member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.taha.librarymanagment.model.dto.MemberDto;
+import org.taha.librarymanagment.model.filter.MemberFilterDto;
 
 import java.util.List;
 
@@ -18,14 +19,14 @@ public interface MemberService {
      * @param pageable the pagination information
      * @return a page of MemberDto objects
      */
-    Page<MemberDto> findAll(Pageable pageable);
+    Page<MemberDto> findAllByFilter(MemberFilterDto memberFilterDto, Pageable pageable);
 
     /**
      * Retrieves all MemberDto objects.
      *
      * @return a list of MemberDto objects
      */
-    List<MemberDto> findAll();
+    List<MemberDto> findAll(MemberFilterDto memberFilterDto);
 
     /**
      * Retrieves a MemberDto object by its ID.
@@ -50,5 +51,5 @@ public interface MemberService {
      * @param memberDto the MemberDto object with updated information
      * @return the updated MemberDto object
      */
-    MemberDto update(Long id, MemberDto memberDto);
+    int update(Long id, MemberDto memberDto);
 }
