@@ -9,7 +9,10 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-@RequiredArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TranslatorDto implements Serializable {
     Long id;
     PersonDto person;

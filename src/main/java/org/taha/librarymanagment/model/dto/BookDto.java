@@ -11,7 +11,10 @@ import java.util.List;
  */
 @Setter
 @Getter
-@RequiredArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookDto implements Serializable {
     Long id;
     String title;

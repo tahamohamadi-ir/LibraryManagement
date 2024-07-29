@@ -12,7 +12,10 @@ import java.sql.Timestamp;
  */
 @Setter
 @Getter
-@RequiredArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonDto implements Serializable {
     Long id;
     String firstName;

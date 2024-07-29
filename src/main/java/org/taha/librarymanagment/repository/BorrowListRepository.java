@@ -18,7 +18,7 @@ public interface BorrowListRepository extends JpaRepository<BorrowList, Long>, J
     @Query("select count(b) from BorrowList b where b.member.id = ?1 and b.isReturned = ?2")
     long countMemberNotReturn(Long id, boolean isReturned);
 
-    List<BorrowList> bookMemberNotReturned(Long id, boolean isReturned);
+    List<BorrowList> findByBookIdAndIsReturned(Long bookId, boolean isReturned);
 
     @Transactional
     @Modifying
@@ -49,7 +49,7 @@ public interface BorrowListRepository extends JpaRepository<BorrowList, Long>, J
 
     @Query("""
             select b from BorrowList b
-            where b.book.id = :bookId and b.member.id = :id1 and b.borrowDate = :borrowDate and b.borrowDate = :borrowDate1""")
-    List<BorrowList> findInPeriodByMemberAndBook(@Param("bookId") @Nullable Long bookId, @Param("id1") @Nullable Long id1, @Param("borrowDate") @Nullable Timestamp borrowDate, @Param("borrowDate1") @Nullable Timestamp borrowDate1);
+            where b.book.id = :bookId and b.member.id = :memberId and b.borrowDate >= :borrowDateFrom and b.borrowDate <= :borrowDateThru""")
+    List<BorrowList> findInPeriodByMemberAndBook(@Param("bookId") @Nullable Long bookId, @Param("memberId") @Nullable Long memberId, @Param("borrowDateFrom") @Nullable Timestamp borrowDateFrom, @Param("borrowDateThru") @Nullable Timestamp borrowDateThru);
 
 }

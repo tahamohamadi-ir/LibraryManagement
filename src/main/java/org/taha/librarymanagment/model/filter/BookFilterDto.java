@@ -1,12 +1,15 @@
 package org.taha.librarymanagment.model.filter;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 
-@Getter
 @Setter
+@Getter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookFilterDto {
     private String title;
     private String author;

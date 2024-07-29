@@ -1,7 +1,6 @@
 package org.taha.librarymanagment.model.filter;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.data.domain.Pageable;
 import org.taha.librarymanagment.model.enumeration.GenderEnum;
 import org.taha.librarymanagment.model.enumeration.MembershipStatusEnum;
@@ -9,8 +8,12 @@ import org.taha.librarymanagment.model.enumeration.NationalityEnum;
 
 import java.sql.Timestamp;
 
-@RequiredArgsConstructor
+@Setter
+@Getter
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberFilterDto {
     private String firstName;
     private String lastName;

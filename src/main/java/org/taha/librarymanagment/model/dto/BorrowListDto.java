@@ -10,7 +10,10 @@ import java.sql.Timestamp;
  */
 @Setter
 @Getter
-@RequiredArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BorrowListDto implements Serializable {
     Long id;
     BookDto book;
