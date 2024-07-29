@@ -1,6 +1,6 @@
 package org.taha.librarymanagment.model.dto;
 
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -9,7 +9,9 @@ import java.util.List;
 /**
  * DTO for {@link org.taha.librarymanagment.model.entity.Book}
  */
-@Value
+@Setter
+@Getter
+@RequiredArgsConstructor
 public class BookDto implements Serializable {
     Long id;
     String title;

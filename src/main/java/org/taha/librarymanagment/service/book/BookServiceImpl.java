@@ -1,4 +1,4 @@
-package org.taha.librarymanagment.service.Book;
+package org.taha.librarymanagment.service.book;
 
 import org.springframework.stereotype.Service;
 

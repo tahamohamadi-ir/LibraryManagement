@@ -13,9 +13,6 @@ import java.sql.Timestamp;
 public class MemberFilter {
     private String firstName;
     private String lastName;
-    private String nationalCode;
-    private String fatherName;
-    private String phoneNumber;
     private GenderEnum gender;
     private MembershipStatusEnum membershipStatus;
     private String email;

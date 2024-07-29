@@ -1,6 +1,6 @@
 package org.taha.librarymanagment.model.dto;
 
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -8,7 +8,9 @@ import java.sql.Timestamp;
 /**
  * DTO for {@link org.taha.librarymanagment.model.entity.BorrowList}
  */
-@Value
+@Setter
+@Getter
+@RequiredArgsConstructor
 public class BorrowListDto implements Serializable {
     Long id;
     BookDto book;

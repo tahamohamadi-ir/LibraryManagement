@@ -1,6 +1,6 @@
 package org.taha.librarymanagment.model.dto;
 
-import lombok.Value;
+import lombok.*;
 import org.taha.librarymanagment.model.enumeration.GenderEnum;
 import org.taha.librarymanagment.model.enumeration.NationalityEnum;
 
@@ -10,7 +10,9 @@ import java.sql.Timestamp;
 /**
  * DTO for {@link org.taha.librarymanagment.model.entity.Person}
  */
-@Value
+@Setter
+@Getter
+@RequiredArgsConstructor
 public class PersonDto implements Serializable {
     Long id;
     String firstName;
