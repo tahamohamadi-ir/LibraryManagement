@@ -52,4 +52,15 @@ public interface MemberService {
      * @return the updated MemberDto object
      */
     int update(Long id, MemberDto memberDto);
+
+
+    int activateMember(Long id);
+    int deactivateMember(Long id);
+    int suspendMember(Long id);
+    int expireMember(Long id);
+    int inProgressMember(Long id);
+
+
+
+
 }

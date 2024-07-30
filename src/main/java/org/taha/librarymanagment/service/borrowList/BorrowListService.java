@@ -3,6 +3,7 @@ package org.taha.librarymanagment.service.borrowList;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 import org.taha.librarymanagment.model.dto.BorrowListDto;
+import org.taha.librarymanagment.model.dto.MonthlyReportDto;
 import org.taha.librarymanagment.model.entity.BorrowList;
 
 import java.sql.Timestamp;
@@ -20,4 +21,5 @@ public interface BorrowListService {
     List<BorrowList> findBorrowedByMemberId(Long id);
     List<BorrowList> findBorrowedPeriod(Timestamp borrowDateFrom,Timestamp borrowDateThru);
     List<BorrowList> findInPeriodByMemberAndBook(Long bookId,Long memberId,Timestamp borrowDateFrom,Timestamp borrowDateThru);
+    List<MonthlyReportDto> getMonthlyReport(Timestamp borrowDateFrom,Timestamp borrowDateThru);
 }

@@ -1,7 +1,5 @@
 package org.taha.librarymanagment.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,12 +9,9 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.taha.librarymanagment.model.entity.Member;
-import org.taha.librarymanagment.model.enumeration.GenderEnum;
 import org.taha.librarymanagment.model.enumeration.MembershipStatusEnum;
-import org.taha.librarymanagment.model.enumeration.NationalityEnum;
 
-import java.sql.Timestamp;
-import java.util.List;
+
 
 /**
  * Repository interface for Member entity.
@@ -46,4 +41,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
         update Member m set m.phoneNumber = :phoneNumber, m.address = :address, m.membershipStatus = :membershipStatus, m.email = :email, m.nationalCode = :nationalCode, m.fatherName = :fatherName
         where m.id = :id""")
     int updateMember(@Nullable @Param("phoneNumber") String phoneNumber, @Nullable @Param("address") String address, @Nullable @Param("membershipStatus") MembershipStatusEnum membershipStatus, @Nullable @Param("email") String email, @Nullable @Param("nationalCode") String nationalCode, @Nullable @Param("fatherName") String fatherName, @Param("id") Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update Member m set m.membershipStatus = :membershipStatus where m.id = :id")
+    int updateMembershipStatusById(@Param("membershipStatus") MembershipStatusEnum membershipStatus, @Param("id") Long id);
 }

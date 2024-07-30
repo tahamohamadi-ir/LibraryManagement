@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.taha.librarymanagment.model.dto.MemberDto;
 import org.taha.librarymanagment.model.entity.Member;
+import org.taha.librarymanagment.model.enumeration.MembershipStatusEnum;
 import org.taha.librarymanagment.model.filter.MemberFilterDto;
 import org.taha.librarymanagment.model.mapper.MemberMapper;
 import org.taha.librarymanagment.repository.MemberRepository;
@@ -132,5 +133,59 @@ public class MemberServiceImpl implements MemberService {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to update member details", e);
         }
+    }
+    /**
+     * Activates a member by updating their membership status to Active.
+     *
+     * @param id the member's ID
+     * @return the number of entities updated
+     */
+    @Override
+    public int activateMember(Long id) {
+        return memberRepository.updateMembershipStatusById(MembershipStatusEnum.Active, id);
+    }
+
+    /**
+     * Deactivates a member by updating their membership status to Inactive.
+     *
+     * @param id the member's ID
+     * @return the number of entities updated
+     */
+    @Override
+    public int deactivateMember(Long id) {
+        return memberRepository.updateMembershipStatusById(MembershipStatusEnum.Inactive, id);
+    }
+
+    /**
+     * Suspends a member by updating their membership status to Suspended.
+     *
+     * @param id the member's ID
+     * @return the number of entities updated
+     */
+    @Override
+    public int suspendMember(Long id) {
+        return memberRepository.updateMembershipStatusById(MembershipStatusEnum.Suspended, id);
+    }
+
+    /**
+     * Expires a member by updating their membership status to Expired.
+     *
+     * @param id the member's ID
+     * @return the number of entities updated
+     */
+    @Override
+    public int expireMember(Long id) {
+        return memberRepository.updateMembershipStatusById(MembershipStatusEnum.Expired, id);
+    }
+
+    /**
+     * Sets a member's membership status to InProgress.
+     *
+     * @param id the member's ID
+     * @return the number of entities updated
+     */
+    @Override
+    public int inProgressMember(Long id) {
+        return memberRepository.updateMembershipStatusById(MembershipStatusEnum.InProgress, id);
     }
 }
