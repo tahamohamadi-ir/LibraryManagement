@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ExcelService {
     void generateMonthlyReport(List<MonthlyReportDto> data) throws IOException;
+    void generateMonthlyReport2(List<MonthlyReportDto> data) throws IOException;
 }
