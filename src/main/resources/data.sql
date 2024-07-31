@@ -1,3 +1,62 @@
+CREATE TABLE Person (
+                        id INT PRIMARY KEY,
+                        firstName VARCHAR(50),
+                        lastName VARCHAR(50),
+                        gender VARCHAR(10),
+                        birthDate DATE,
+                        nationalities VARCHAR(50)
+);
+CREATE TABLE Member (
+                        id INT PRIMARY KEY,
+                        person_id INT,
+                        phoneNumber VARCHAR(20),
+                        address VARCHAR(100),
+                        membershipStatus VARCHAR(20),
+                        email VARCHAR(50),
+                        registerDate DATE,
+                        nationalCode VARCHAR(20),
+                        fatherName VARCHAR(50),
+                        FOREIGN KEY (person_id) REFERENCES Person(id)
+);
+CREATE TABLE Author (
+                        id INT PRIMARY KEY,
+                        person_id INT,
+                        FOREIGN KEY (person_id) REFERENCES Person(id)
+);
+
+CREATE TABLE Translator (
+                            id INT PRIMARY KEY,
+                            person_id INT,
+                            FOREIGN KEY (person_id) REFERENCES Person(id)
+);
+
+CREATE TABLE Book (
+                      id INT PRIMARY KEY,
+                      title VARCHAR(100),
+                      bookNumber INT,
+                      isbn VARCHAR(20),
+                      publisher VARCHAR(50),
+                      publicationDate DATE,
+                      publicationYear INT,
+                      pages INT,
+                      language VARCHAR(20),
+                      description TEXT
+);
+
+CREATE TABLE BorrowList (
+                            id INT PRIMARY KEY,
+                            book_id INT,
+                            member_id INT,
+                            borrowDate TIMESTAMP,
+                            returnDate TIMESTAMP,
+                            dueDays INT,
+                            isReturned BOOLEAN,
+                            isExtended BOOLEAN,
+                            extendCount INT,
+                            penalty DECIMAL(10, 2),
+                            FOREIGN KEY (book_id) REFERENCES Book(id),
+                            FOREIGN KEY (member_id) REFERENCES Member(id)
+);
 INSERT INTO Person (id, firstName, lastName, gender, birthDate, nationalities) VALUES
                                                                                    (1, 'John', 'Doe', 'MALE', '1985-06-15', 'AMERICAN'),
                                                                                    (2, 'Jane', 'Smith', 'FEMALE', '1990-07-22', 'CANADIAN'),
