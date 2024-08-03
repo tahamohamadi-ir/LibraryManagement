@@ -20,8 +20,14 @@ import java.util.List;
 @Service
 public class ExcelServiceImpl implements ExcelService {
 
+    /**
+     * Generates a monthly report in Excel format using Apache POI.
+     *
+     * @param data The data to be included in the report.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
-    public void generateMonthlyReport(List<MonthlyReportDto> data) throws IOException {
+    public void generateMonthlyReportMethod1(List<MonthlyReportDto> data) throws IOException {
         Workbook workbook = new XSSFWorkbook();
 
         Sheet sheet = workbook.createSheet("Monthly Report");
@@ -94,8 +100,14 @@ public class ExcelServiceImpl implements ExcelService {
         workbook.close();
     }
 
+    /**
+     * Generates a monthly report in Excel format using Apache POI SXSSF (Streaming Usermodel API).
+     *
+     * @param data The data to be included in the report.
+     * @throws IOException If an I/O error occurs.
+     */
     @Override
-    public void generateMonthlyReport2(List<MonthlyReportDto> data) throws IOException {
+    public void generateMonthlyReportMethod2(List<MonthlyReportDto> data) throws IOException {
         try (SXSSFWorkbook workbook = new SXSSFWorkbook(); FileOutputStream outputStream = new FileOutputStream("monthly_report.xlsx")) {
             Sheet sheet = workbook.createSheet("Monthly Report");
             createHeaderRow(sheet, workbook);
@@ -104,6 +116,12 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
+    /**
+     * Creates the header row for the Excel sheet.
+     *
+     * @param sheet The Excel sheet.
+     * @param workbook The Excel workbook.
+     */
     private void createHeaderRow(Sheet sheet, Workbook workbook) {
         Row header = sheet.createRow(0);
         CellStyle headerStyle = createHeaderCellStyle(workbook);
@@ -116,6 +134,12 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
+    /**
+     * Creates the cell style for the header row.
+     *
+     * @param workbook The Excel workbook.
+     * @return The created cell style.
+     */
     private CellStyle createHeaderCellStyle(Workbook workbook) {
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
@@ -136,6 +160,13 @@ public class ExcelServiceImpl implements ExcelService {
         return headerStyle;
     }
 
+    /**
+     * Populates the data rows in the Excel sheet.
+     *
+     * @param sheet The Excel sheet.
+     * @param data The data to be included in the rows.
+     * @param workbook The Excel workbook.
+     */
     private void populateDataRows(Sheet sheet, List<MonthlyReportDto> data, Workbook workbook) {
         CellStyle dataCellStyle = createDataCellStyle(workbook);
         int rowCount = 1;
@@ -161,6 +192,12 @@ public class ExcelServiceImpl implements ExcelService {
         }
     }
 
+    /**
+     * Creates the cell style for the data rows.
+     *
+     * @param workbook The Excel workbook.
+     * @return The created cell style.
+     */
     private CellStyle createDataCellStyle(Workbook workbook) {
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
@@ -171,6 +208,14 @@ public class ExcelServiceImpl implements ExcelService {
         return style;
     }
 
+    /**
+     * Creates a data cell in a row.
+     *
+     * @param row The row in which the cell is to be created.
+     * @param column The column index for the cell.
+     * @param value The value to be set in the cell.
+     * @param style The cell style to be applied to the cell.
+     */
     private void createDataCell(Row row, int column, String value, CellStyle style) {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);

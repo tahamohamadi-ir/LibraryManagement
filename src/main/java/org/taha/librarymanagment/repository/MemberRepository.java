@@ -11,15 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.taha.librarymanagment.model.entity.Member;
 import org.taha.librarymanagment.model.enumeration.MembershipStatusEnum;
 
-
-
 /**
- * Repository interface for Member entity.
+ * Repository interface for managing {@link Member} entities.
  * It extends JpaRepository and JpaSpecificationExecutor for standard CRUD operations and specification executor functionality.
  */
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecificationExecutor<Member> {
-
 
     /**
      * Updates a member's details in the database.
@@ -42,6 +39,15 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
         where m.id = :id""")
     int updateMember(@Nullable @Param("phoneNumber") String phoneNumber, @Nullable @Param("address") String address, @Nullable @Param("membershipStatus") MembershipStatusEnum membershipStatus, @Nullable @Param("email") String email, @Nullable @Param("nationalCode") String nationalCode, @Nullable @Param("fatherName") String fatherName, @Param("id") Long id);
 
+    /**
+     * Updates the membership status of a member by their id.
+     * This method is transactional, meaning it will either complete successfully or roll back any changes if an error occurs.
+     * It uses a custom query to update the membership status.
+     *
+     * @param membershipStatus The new membership status of the member.
+     * @param id The id of the member to update.
+     * @return The number of entities updated. Should be 1 if the operation was successful, 0 otherwise.
+     */
     @Transactional
     @Modifying
     @Query("update Member m set m.membershipStatus = :membershipStatus where m.id = :id")

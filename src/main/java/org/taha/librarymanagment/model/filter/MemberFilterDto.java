@@ -28,5 +28,4 @@ public class MemberFilterDto {
     private Timestamp registerDateThru;
     private String nationalCode;
     private String fatherName;
-    private Pageable pageable;
 }

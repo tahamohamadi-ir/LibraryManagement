@@ -1,5 +1,6 @@
 package org.taha.librarymanagment.service.member;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.List;
  * Service implementation for managing members.
  */
 @Service
+@Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
@@ -68,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
      * @return a list of member DTOs
      */
     @Override
-    public List<MemberDto> findAll(MemberFilterDto memberFilterDto) {
+    public List<MemberDto> findAllDto(MemberFilterDto memberFilterDto) {
         MemberSpecification spec = createSpecification(memberFilterDto);
         List<Member> members = memberRepository.findAll(spec);
         return members.stream()
@@ -89,6 +91,7 @@ public class MemberServiceImpl implements MemberService {
                 .map(memberMapper::toDto)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member not found with id: " + id));
     }
+
 
     /**
      * Saves a new member.

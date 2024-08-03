@@ -1,3 +1,10 @@
+-- Creates a table named Person with the following columns:
+-- id: An integer that serves as the primary key.
+-- firstName: A string that stores the first name.
+-- lastName: A string that stores the last name.
+-- gender: A string that stores the gender.
+-- birthDate: A date that stores the birth date.
+-- nationalities: A string that stores the nationalities.
 CREATE TABLE Person (
                         id INT PRIMARY KEY,
                         firstName VARCHAR(50),
@@ -6,6 +13,17 @@ CREATE TABLE Person (
                         birthDate DATE,
                         nationalities VARCHAR(50)
 );
+
+-- Creates a table named Member with the following columns:
+-- id: An integer that serves as the primary key.
+-- person_id: An integer that serves as a foreign key referencing the Person table.
+-- phoneNumber: A string that stores the phone number.
+-- address: A string that stores the address.
+-- membershipStatus: A string that stores the membership status.
+-- email: A string that stores the email.
+-- registerDate: A date that stores the register date.
+-- nationalCode: A string that stores the national code.
+-- fatherName: A string that stores the father's name.
 CREATE TABLE Member (
                         id INT PRIMARY KEY,
                         person_id INT,
@@ -18,18 +36,36 @@ CREATE TABLE Member (
                         fatherName VARCHAR(50),
                         FOREIGN KEY (person_id) REFERENCES Person(id)
 );
+
+-- Creates a table named Author with the following columns:
+-- id: An integer that serves as the primary key.
+-- person_id: An integer that serves as a foreign key referencing the Person table.
 CREATE TABLE Author (
                         id INT PRIMARY KEY,
                         person_id INT,
                         FOREIGN KEY (person_id) REFERENCES Person(id)
 );
 
+-- Creates a table named Translator with the following columns:
+-- id: An integer that serves as the primary key.
+-- person_id: An integer that serves as a foreign key referencing the Person table.
 CREATE TABLE Translator (
                             id INT PRIMARY KEY,
                             person_id INT,
                             FOREIGN KEY (person_id) REFERENCES Person(id)
 );
 
+-- Creates a table named Book with the following columns:
+-- id: An integer that serves as the primary key.
+-- title: A string that stores the title.
+-- bookNumber: An integer that stores the book number.
+-- isbn: A string that stores the ISBN.
+-- publisher: A string that stores the publisher.
+-- publicationDate: A date that stores the publication date.
+-- publicationYear: An integer that stores the publication year.
+-- pages: An integer that stores the number of pages.
+-- language: A string that stores the language.
+-- description: A text that stores the description.
 CREATE TABLE Book (
                       id INT PRIMARY KEY,
                       title VARCHAR(100),
@@ -43,6 +79,17 @@ CREATE TABLE Book (
                       description TEXT
 );
 
+-- Creates a table named BorrowList with the following columns:
+-- id: An integer that serves as the primary key.
+-- book_id: An integer that serves as a foreign key referencing the Book table.
+-- member_id: An integer that serves as a foreign key referencing the Member table.
+-- borrowDate: A timestamp that stores the borrow date.
+-- returnDate: A timestamp that stores the return date.
+-- dueDays: An integer that stores the due days.
+-- isReturned: A boolean that stores whether the book is returned.
+-- isExtended: A boolean that stores whether the borrow is extended.
+-- extendCount: An integer that stores the extend count.
+-- penalty: A decimal that stores the penalty.
 CREATE TABLE BorrowList (
                             id INT PRIMARY KEY,
                             book_id INT,
@@ -57,6 +104,8 @@ CREATE TABLE BorrowList (
                             FOREIGN KEY (book_id) REFERENCES Book(id),
                             FOREIGN KEY (member_id) REFERENCES Member(id)
 );
+
+-- Inserts data into the Person table.
 INSERT INTO Person (id, firstName, lastName, gender, birthDate, nationalities) VALUES
                                                                                    (1, 'John', 'Doe', 'MALE', '1985-06-15', 'AMERICAN'),
                                                                                    (2, 'Jane', 'Smith', 'FEMALE', '1990-07-22', 'CANADIAN'),
@@ -69,6 +118,7 @@ INSERT INTO Person (id, firstName, lastName, gender, birthDate, nationalities) V
                                                                                    (9, 'George', 'Lewis', 'MALE', '1992-01-02', 'RUSSIAN'),
                                                                                    (10, 'Hannah', 'Walker', 'FEMALE', '1986-05-14', 'ARGENTINIAN');
 
+-- Inserts data into the Member table.
 INSERT INTO Member (id, person_id, phoneNumber, address, membershipStatus, email, registerDate, nationalCode, fatherName) VALUES
                                                                                                                               (1, 1, '1234567890', '123 Elm St', 'ACTIVE', 'john.doe@example.com', '2022-01-01', '1111111111', 'Michael Doe'),
                                                                                                                               (2, 2, '2345678901', '456 Maple Ave', 'INACTIVE', 'jane.smith@example.com', '2022-02-15', '2222222222', 'David Smith'),
@@ -81,6 +131,7 @@ INSERT INTO Member (id, person_id, phoneNumber, address, membershipStatus, email
                                                                                                                               (9, 9, '9012345678', '606 Redwood Rd', 'INACTIVE', 'george.lewis@example.com', '2022-09-02', '9999999999', 'Charles Lewis'),
                                                                                                                               (10, 10, '0123456789', '707 Cypress Ln', 'ACTIVE', 'hannah.walker@example.com', '2022-10-11', '0000000000', 'Stephen Walker');
 
+-- Inserts data into the Author table.
 INSERT INTO Author (id, person_id) VALUES
                                        (1, 1),
                                        (2, 2),
@@ -93,6 +144,7 @@ INSERT INTO Author (id, person_id) VALUES
                                        (9, 9),
                                        (10, 10);
 
+-- Inserts data into the Translator table.
 INSERT INTO Translator (id, person_id) VALUES
                                            (1, 6),
                                            (2, 7),
@@ -105,6 +157,7 @@ INSERT INTO Translator (id, person_id) VALUES
                                            (9, 4),
                                            (10, 5);
 
+-- Inserts data into the Book table.
 INSERT INTO Book (id, title, bookNumber, isbn, publisher, publicationDate, publicationYear, pages, language, description) VALUES
                                                                                                                               (1, 'The Great Book', 1001, '978-3-16-148410-0', 'Publisher A', '2020-01-01', 2020, 300, 'English', 'A great book on great things.'),
                                                                                                                               (2, 'Another Story', 1002, '978-1-23-456789-7', 'Publisher B', '2021-02-15', 2021, 250, 'French', 'A captivating story.'),
@@ -117,6 +170,7 @@ INSERT INTO Book (id, title, bookNumber, isbn, publisher, publicationDate, publi
                                                                                                                               (9, 'Cooking Recipes', 1009, '978-3-16-148429-2', 'Publisher I', '2014-09-09', 2014, 180, 'Spanish', 'Delicious recipes for every meal.'),
                                                                                                                               (10, 'Art and Culture', 1010, '978-1-84-456785-2', 'Publisher J', '2013-10-30', 2013, 220, 'Italian', 'Exploring art and culture.');
 
+-- Inserts data into the BorrowList table.
 INSERT INTO BorrowList (id, book_id, member_id, borrowDate, returnDate, dueDays, isReturned, isExtended, extendCount, penalty) VALUES
                                                                                                                                    (1, 1, 1, '2023-01-01 00:00:00', '2023-01-15 00:00:00', 14, true, false, 0, 0),
                                                                                                                                    (2, 2, 2, '2023-02-01 00:00:00', '2023-02-15 00:00:00', 14, true, false, 0, 0),

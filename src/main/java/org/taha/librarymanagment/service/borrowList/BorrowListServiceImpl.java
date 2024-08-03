@@ -168,12 +168,25 @@ public class BorrowListServiceImpl implements BorrowListService{
         return borrowListRepository.findInPeriodByMemberAndBook(bookId, memberId, borrowDateFrom, borrowDateThru);
     }
 
+    /**
+     * Generates a monthly report of borrowed books.
+     *
+     * @param borrowDateFrom the start date of the period
+     * @param borrowDateThru the end date of the period
+     * @return the list of monthly report data transfer objects
+     */
     @Override
     public List<MonthlyReportDto> getMonthlyReport(Timestamp borrowDateFrom, Timestamp borrowDateThru) {
         List<BorrowList> borrowedPerPeriod = borrowListRepository.findBorrowedPeriod(borrowDateFrom, borrowDateThru);
         return borrowedPerPeriod.stream().map(this::borrowListToMonthlyReportDto).toList();
     }
 
+    /**
+     * Converts a BorrowList to a MonthlyReportDto.
+     *
+     * @param borrowList the borrow list
+     * @return the monthly report data transfer object
+     */
     MonthlyReportDto borrowListToMonthlyReportDto(BorrowList borrowList) {
         return MonthlyReportDto.builder()
                 .firstName(borrowList.getMember().getPerson().getFirstName())

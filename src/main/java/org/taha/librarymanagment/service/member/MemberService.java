@@ -26,7 +26,7 @@ public interface MemberService {
      *
      * @return a list of MemberDto objects
      */
-    List<MemberDto> findAll(MemberFilterDto memberFilterDto);
+    List<MemberDto> findAllDto(MemberFilterDto memberFilterDto);
 
     /**
      * Retrieves a MemberDto object by its ID.
@@ -35,7 +35,6 @@ public interface MemberService {
      * @return the MemberDto object with the given ID
      */
     MemberDto findById(Long id);
-
     /**
      * Saves a new MemberDto object.
      *
